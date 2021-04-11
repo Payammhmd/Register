@@ -1,0 +1,25 @@
+<div class="widget block block-static-block">
+    <h2>لطفا همه مشخصات را وارد نمایید </h2>
+    <br>
+    <?php if (isset($block)) {
+        $url = $block->getUrl();
+    } ?>
+    <form action="<?php echo $url; ?>form/vendor/index" method="get">
+        <label for="fname">First name:</label>
+        <br>
+        <input id="fname" name="fname" type="text" placeholder="Your Name" autocomplete="off">
+        <br>
+        <br>
+        <label for="lname">Last name:</label>
+        <br>
+        <input id="lname" name="lname" type="text" placeholder="Your Family" autocomplete="off">
+        <br>
+        <br>
+        <label for="lname">Phone Number:</label>
+        <br>
+        <input id="number" name="number" type="text" placeholder="ex: 09123456789" autocomplete="off">
+        <br><br>
+        <input type="submit" value="Submit"></form>
+</div>
+
+

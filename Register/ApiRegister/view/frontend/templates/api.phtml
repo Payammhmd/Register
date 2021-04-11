@@ -1,0 +1,45 @@
+<h1>Api Page </h1>
+<?php if (isset($block)) {
+    $url = $block->getUrl();
+} ?>
+<a href="<?php $url; ?> ../../register/vendor/index">بازگشت به صفحه اصلی</a>
+<hr>
+<?php
+if(!empty($_GET['fname']) && !empty($_GET['lname']) && !empty($_GET['number'])){
+    $name = $_GET["fname"];
+    $family = $_GET["lname"];
+    $mobile = $_GET["number"];
+    $nf = $name . " " . $family;
+}
+else {
+    echo "لطفا همه مشخصات را پر کنید.";
+    exit();
+}
+
+// Connection string to DB
+$this->_resources = \Magento\Framework\App\ObjectManager::getInstance()
+    ->get('Magento\Framework\App\ResourceConnection');
+$connection= $this->_resources->getConnection();
+$table_customer_grid_flat = $this->_resources->getTableName('t_customer_grid_flat');
+
+// Query SELECT -- entity_id primary key!
+$sql = "Select max(entity_id) as last_id FROM " . $table_customer_grid_flat;
+$result = $connection->fetchAll($sql);
+       if(isset($result)){
+           $id_max = implode($result[0]);
+           $entity_id = intval($id_max);
+           $entity_id++;
+// Query INSERT to DB
+           $sql_insert = /** @lang text */
+               "INSERT INTO " . $table_customer_grid_flat . " (entity_id, name, billing_telephone)
+           VALUES ( $entity_id, '$nf', '$mobile');";
+           $connection->query($sql_insert);
+
+           echo "<h2>مشخصات با موفقیت ثبت شد</h2>";
+       }
+       else{
+           echo "مشکل پیش آمده است";
+           exit();
+       }
+
+
